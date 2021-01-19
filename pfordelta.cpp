@@ -14,7 +14,7 @@ using namespace std;
 
 PforDelta::PforDelta(ulong *A, ulong len, uint bitPerCell) {
 	ulong i, j, k, l, m, max, num, auxMin, auxMax;
-	ulong bestBits, cont, cont2, totBits, diffLim, diffBit;
+	ulong bestBits, cont, cont2, totBits, diffLim, diffBit, diffEx, diffExBit;
     ulong limit, acum, blimit;
 	uint lgNum, lgX, lgEMax;
 	ulong *C, *Min, *Max;
@@ -25,7 +25,7 @@ PforDelta::PforDelta(ulong *A, ulong len, uint bitPerCell) {
 	n = nP = len;
 	nEMin = nEx = 0;
     acum = 0;
-	ExMin = ExMax = P = nullptr;
+	Ex = P = nullptr;
 	basMin = max = getNum64(A, 0, origBitA);
 	for (i=1, j=origBitA; i<n; i++, j+=origBitA){
 		num = getNum64(A, j, origBitA);
@@ -75,31 +75,53 @@ PforDelta::PforDelta(ulong *A, ulong len, uint bitPerCell) {
         l++;
     }
 	cout<<"l: "<<l<<endl;
-	//preguntar si el siguiente 
-	
-	// avanzar hasta que sea dif de 0
+	blimit = l-1;
 
-    cout<<"acum: "<<acum<<endl;
-    blimit = l-1;
-	cout<<"basmin: "<<basMin<<endl;
+	for (j=l; C[j]==0; j++);
+	cout<<"j: "<<j<<endl;
+	if (C[j]){
+		auxMin = Min[j];
+	}
+	cout<<"auxMin: "<<auxMin<<endl;
+
+
+   // cout<<"acum: "<<acum<<endl;
+    
+	//cout<<"basmin: "<<basMin<<endl;
+	diffEx = limP - auxMin;
 	diffLim = Max[blimit] - basMin;
 	diffBit = 1 + (uint)(log(diffLim)/log(2));
-	cout<<"diffBit"<<diffBit<<endl;
+	diffExBit = 1 + (uint)(log(diffEx)/log(2));
+	//cout<<diffExBit<<"diff"<<endl;
+	//cout<<"diffBit"<<diffBit<<endl;
 	b = diffBit;
 	nP = acum;
 	nEx = n-acum; //cantidad de números en las excepciones
 
-	//ESTRUCTURA
+	//ESTRUCTURA de P
 
 	ulong bytesA = n*maxBitsA/8;
 	k = nP*b / (8*sizeof(ulong));
-	cout<<"k: "<<k<<endl;
+	//cout<<"k: "<<k<<endl;
 	if ((nP*b) % (8*sizeof(ulong))){
 		k++;
 	}
-	cout<<"k 2: "<<k<<endl;
+	//cout<<"k 2: "<<k<<endl;
 	P = new ulong[k];
 	sizePFD = k*sizeof(ulong);
+
+	//Estructura de las excepciones
+
+	if (nEx){
+		//cout<<"ENTRA"<<nEx<<endl;
+		k = nEx*diffExBit / (8*sizeof(ulong));
+		if ((nEx*diffExBit) % (8*sizeof(ulong))){
+			k++;
+		}
+		Ex = new ulong[k];
+		sizePFD += k*sizeof(ulong);
+		cout<<"size: "<<sizePFD<<endl;
+	}
 
 	/*if (nEx){
 		cout<<"ENTRA A nEMAX: "<<endl;

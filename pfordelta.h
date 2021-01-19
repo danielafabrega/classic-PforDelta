@@ -35,7 +35,7 @@ public:
 	//rank_support_v<> BEx_ra;
 
 	ulong basMin;
-	ulong *ExMin;
+	ulong *Ex;
 	ulong basP;
 	ulong *P;
 	ulong limP;

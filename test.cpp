@@ -27,7 +27,7 @@ int main(int argc, char** argv)
 {
 	
 	ulong i, n, prob;
-	n = 200;
+	n = 20;
 	ulong *A = new ulong[n];
 
 	for (i=0; i<n ; i++){
