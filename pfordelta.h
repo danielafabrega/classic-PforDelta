@@ -8,9 +8,9 @@
 #ifndef PFORDELTA_H_
 #define PFORDELTA_H_
 
-//#include <sdsl/bit_vectors.hpp>
+#include <sdsl/bit_vectors.hpp>
 
-//using namespace sdsl;
+using namespace sdsl;
 
 using namespace std;
 
@@ -27,12 +27,12 @@ public:
 	static bool TRACE;	// true: print all details for console
 	static bool TEST;	// true: print all details for console
 
-	//bit_vector BS;							// BitVector of length n to mark numbers in the PforDelta interval
-	//rrr_vector<127> BS_rrr;
-	//rrr_vector<127>::rank_1_type BS_ra;
+	bit_vector BS;							// BitVector of length n to mark numbers in the PforDelta interval
+	rrr_vector<127> BS_rrr;
+	rrr_vector<127>::rank_1_type BS_ra;
 
-	//bit_vector BEx;							// BitVector of length nP to mark exceptions
-	//rank_support_v<> BEx_ra;
+	bit_vector BEx;							// BitVector of length nP to mark exceptions
+	rank_support_v<> BEx_ra;
 
 	ulong basMin;
 	ulong *Ex;
@@ -44,6 +44,8 @@ public:
 	ulong nEMin;	// # 1's in BEx
 	ulong nP;		// # 1's in BS
 	ulong nEx;	// # 0's in BEx
+	ulong diffExBit;
+	ulong auxMin;
 
 	uint origBitA; 	// bits for each value in the original A[] array received in the parameter 'bitPerCell'
 	
@@ -58,15 +60,15 @@ public:
 
 	PforDelta(ulong *A, ulong n, uint bitPerCell);
 	//PforDelta(char *pathFile);
-	//void testPforDelta(ulong *A);
+	void testPforDelta(ulong *A);
 
 	// retrieve A[i]
-	//ulong extract(ulong i);
+	ulong extract(ulong i);
 	// retrieve A[i..j]
 	//void extract(ulong i, ulong j, ulong **X, uint *nBit);
 
 	// set the number x as a bitstring sequence in *A. In the range of bits [ini, .. ini+len-1] of *A. Here x has len bits
-	//void setNum64(ulong *A, ulong ini, uint len, ulong x);
+	void setNum64(ulong *A, ulong ini, uint len, ulong x);
 
 	// return (in a unsigned long integer) the number in A from bits of position 'ini' to 'ini+len-1'
 	ulong getNum64(ulong *A, ulong ini, uint len);

@@ -27,7 +27,7 @@ int main(int argc, char** argv)
 {
 	
 	ulong i, n, prob;
-	n = 20;
+	n = 40;
 	ulong *A = new ulong[n];
 
 	for (i=0; i<n ; i++){
@@ -37,7 +37,7 @@ int main(int argc, char** argv)
 		else
 			A[i] = rand()%M;
 	}
-	A[1]=80;
+	A[2]=40;
 	A[3]=64;
 	A[4]=129;
 
@@ -55,10 +55,11 @@ int main(int argc, char** argv)
 	char directory[] = "./";
 
 	//PfD->saveStructure(directory);
+	PfD->testPforDelta(A);
+
 	//PfD->~PforDelta();
 
 	//PfD = new PforDelta(directory);
-	//PfD->testPforDelta(A);
 
 	cout << "################## " << endl;
 	return 0;
